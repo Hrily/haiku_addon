@@ -18,7 +18,7 @@ process_refs (entry_ref dir_ref, BMessage *msg, void*)
 }
 
 void
-populateMenu (entry_ref dir_ref, BMessage *msg, BMenuItem* item)
+populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item)
 {
 	BString buffer("Called");
 	BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
