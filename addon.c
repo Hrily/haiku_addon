@@ -8,6 +8,9 @@
 #include <strings.h>
 #include <add-ons/tracker/TrackerAddOn.h>
 
+extern "C" void
+	populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item);
+
 void 
 process_refs (entry_ref dir_ref, BMessage *msg, void*)
 {
@@ -25,7 +28,7 @@ populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item)
 			0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	alert->Go();
 
-	BMenu* menu = item->Submenu();
+	BMenu* menu = item->Menu();
 	if (menu == NULL){
 		BString buffer("Null menu");
 		BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
@@ -34,9 +37,12 @@ populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item)
 		return;
 	}
 
+	BMenu* submenu = new BMenu("submenu");
 	long unsigned int m = 0;
 	BMenuItem *menuitem = new BMenuItem("hello", new BMessage(m));
-	menu->AddItem(menuitem);
+	submenu->AddItem(menuitem);
+
+	menu->AddItem(submenu);
 
 }
 
