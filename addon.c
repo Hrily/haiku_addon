@@ -9,7 +9,7 @@
 #include <add-ons/tracker/TrackerAddOn.h>
 
 extern "C" void
-	populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item);
+	populate_menu (entry_ref dir_ref, BMessage *msg, BMenu* menu);
 
 void 
 process_refs (entry_ref dir_ref, BMessage *msg, void*)
@@ -21,14 +21,13 @@ process_refs (entry_ref dir_ref, BMessage *msg, void*)
 }
 
 void
-populate_menu (entry_ref dir_ref, BMessage *msg, BMenuItem* item)
+populate_menu (entry_ref dir_ref, BMessage *msg, BMenu* menu)
 {
 	BString buffer("Called");
 	BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
 			0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
 	alert->Go();
 
-	BMenu* menu = item->Menu();
 	if (menu == NULL){
 		BString buffer("Null menu");
 		BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
