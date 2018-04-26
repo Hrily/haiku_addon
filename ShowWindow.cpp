@@ -1,4 +1,4 @@
-#include "TrackGit.h"
+#include "ShowWindow.h"
 
 void
 show_window (entry_ref dir_ref, BMessage *msg)
@@ -14,7 +14,7 @@ show_window (entry_ref dir_ref, BMessage *msg)
 	entry.GetPath(&path);
 	view->Insert("Current Directory: ");
 	view->Insert(path.Path());
-	view->Insert("n");
+	view->Insert("\n");
 
 	int refs;
 	entry_ref file_ref;
@@ -22,24 +22,18 @@ show_window (entry_ref dir_ref, BMessage *msg)
 		 msg->FindRef("refs", refs, &file_ref) == B_NO_ERROR;
 		 refs++) {
 		if (refs == 0)
-		      view->Insert("Selected files:n");
+		      view->Insert("Selected files:\n");
 		entry.SetTo(&file_ref);
 		entry.GetPath(&path);
 		view->Insert(path.Path());
-		view->Insert("n");
+		view->Insert("\n");
 	}
 
 	if (refs == 0)
-		view->Insert("No files selected.n");
+		view->Insert("\nNo files selected.\n");
 
 	view->MakeEditable(false);
 	window->AddChild(view);
 	window->Show();
-
-	BString buffer("Called show_window");
-	BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
-	     0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
-	alert->Go();
-	
 }
 

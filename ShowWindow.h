@@ -1,5 +1,5 @@
-#ifndef _TRACKGIT_H
-#define _TRACKGIT_H
+#ifndef _SHOW_WINDOW_H
+#define _SHOW_WINDOW_H
 
 #include <AppKit.h>
 #include <InterfaceKit.h>
