@@ -1,5 +1,4 @@
 #include "FakeTrackGitWindow.h"
-#include "TrackGit.h"
 
 FakeTrackGitWindow::FakeTrackGitWindow(entry_ref dir_ref, BMessage* msg)
 	:
@@ -9,8 +8,13 @@ FakeTrackGitWindow::FakeTrackGitWindow(entry_ref dir_ref, BMessage* msg)
 	this->msg = msg;
 }
 
-void FakeTrackGitWindow::MessageRecieved(BMessage *msg)
+
+void FakeTrackGitWindow::MessageReceived(BMessage *msg)
 {
+        BString buffer("Called MessageRecieved");
+        BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
+                     0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+        alert->Go();
 	switch (msg->what) {
 		case kShowWindow:
 			show_window(this->dir_ref, this->msg);
@@ -19,4 +23,15 @@ void FakeTrackGitWindow::MessageRecieved(BMessage *msg)
 			// _inherited::MessageRecieved(msg);
 			break;
 	}
+}
+
+
+void FakeTrackGitWindow::SetTargetOf(BMenu *item)
+{
+	item->SetTargetForItems(this);
+}
+
+void FakeTrackGitWindow::SetTargetOf(BMenuItem *item)
+{
+	item->SetTarget(this);
 }
