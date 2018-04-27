@@ -6,6 +6,7 @@
 #include <SupportKit.h>
 #include <MenuItem.h>
 
+#include <stdio.h>
 #include <strings.h>
 #include <add-ons/tracker/TrackerAddOn.h>
 
@@ -38,6 +39,7 @@ populate_menu (BMessage *msg, BMenu* menu)
 		alert->Go();
 		return;
 	}
+	printf("into populate_menu");
 
 	BMenuItem* item = menu->FindItem(ADDON_NAME);
 	if (item != NULL)
@@ -49,16 +51,19 @@ populate_menu (BMessage *msg, BMenu* menu)
 	itemMsg->AddInt32("addon_item_id", kShowWindow);
 	BMenuItem *menuitem = new BMenuItem("hello", itemMsg);
 	submenu->AddItem(menuitem);
-	submenu->SetTargetForItems(menu);
+	// submenu->SetTargetForItems(menu);
 
-	// menu->AddItem(submenu);
-	menu->AddItem(menuitem);
+	menu->AddItem(submenu);
 }
 
 
 void 
 message_received (entry_ref dir_ref, BMessage* msg)
 {
+		BString buffer("Called msg_rcvd");
+		BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
+				0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
+		alert->Go();
 	int32 itemId;
 	if (msg->FindInt32("addon_item_id", &itemId) != B_OK)
 		return;
