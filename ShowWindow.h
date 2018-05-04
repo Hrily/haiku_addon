@@ -8,6 +8,6 @@
 const uint32 kShowWindow = 'swnd';
 
 void
-show_window (entry_ref dir_ref, BMessage *msg);
+show_window (BMessage *msg);
 
 #endif

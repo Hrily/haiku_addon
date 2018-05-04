@@ -1,13 +1,20 @@
 #include "ShowWindow.h"
 
 void
-show_window (entry_ref dir_ref, BMessage *msg)
+show_window (BMessage *msg)
 {
 	BWindow *window = new BWindow(BRect(100,100,300,300),
 		"Sample Tracker Add-on", B_TITLED_WINDOW, 0);
 	BTextView *view = new BTextView(BRect(0,0,200,200), "view",
 		BRect(0,0,200,200), B_FOLLOW_ALL_SIDES, B_WILL_DRAW |
 		B_FULL_UPDATE_ON_RESIZE);
+
+	entry_ref dir_ref;
+
+	if (msg->FindRef("dir_ref", &dir_ref) != B_OK) {
+		printf("No dir_ref in message\n");
+		return;
+	}
 
 	BPath path;
 	BEntry entry(&dir_ref);

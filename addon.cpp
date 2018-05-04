@@ -14,7 +14,7 @@
 
 extern "C" {
 	void populate_menu (BMessage* msg, BMenu* menu, BHandler* handler);
-	void message_received (entry_ref dir_ref, BMessage* msg);
+	void message_received (BMessage* msg);
 }
 
 const char* ADDON_NAME = "MyAddOn";
@@ -59,19 +59,15 @@ populate_menu (BMessage* msg, BMenu* menu, BHandler* handler)
 
 
 void 
-message_received (entry_ref dir_ref, BMessage* msg)
+message_received (BMessage* msg)
 {
-		BString buffer("Called msg_rcvd");
-		BAlert *alert = new BAlert("", buffer.String(), "Cancel", 
-				0, 0, B_WIDTH_AS_USUAL, B_WARNING_ALERT);
-		alert->Go();
 	int32 itemId;
 	if (msg->FindInt32("addon_item_id", &itemId) != B_OK)
 		return;
 
 	switch (itemId) {
 		case kShowWindow:
-			show_window(dir_ref, msg);
+			show_window(msg);
 			break;
 		default:
 			break;
