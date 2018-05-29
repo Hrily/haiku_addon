@@ -1,9 +1,10 @@
 #include "MyAddonApp.h"
+#include "ShowWindow.h"
 
 #include <InterfaceKit.h>
 #include <SupportKit.h>
 
-class MyAddonAppWindow : BWindow {
+class MyAddonAppWindow : public BWindow {
 public:
 	MyAddonAppWindow();
 	virtual bool QuitRequested()
@@ -35,5 +36,25 @@ MyAddonApp::MyAddonApp()
 	: 
 	BApplication("application/x-vnd.haiku-myaddon")
 {
-	MyAddonAppWindow* window = new MyAddonAppWindow();
+}
+
+
+void
+MyAddonApp::MessageReceived(BMessage* msg)
+{
+	int32 itemId;
+	MyAddonAppWindow* window;
+
+	if (msg->FindInt32("addon_item_id", &itemId) != B_OK)
+			return;
+
+	switch (itemId) {
+		case kShowWindow:
+			if (!windowMap[kShowWindow])
+				windowMap[kShowWindow] = new MyAddonAppWindow();
+			windowMap[kShowWindow]->Activate(true);
+			break;
+		default:
+			break;
+	}
 }

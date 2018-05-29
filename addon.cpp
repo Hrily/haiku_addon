@@ -42,7 +42,6 @@ populate_menu (BMessage* msg, BMenu* menu, BHandler* handler)
 		alert->Go();
 		return;
 	}
-	printf("into populate_menu\n");
 
 	BMenuItem* item = menu->FindItem(ADDON_NAME);
 	if (item != NULL)
@@ -66,6 +65,12 @@ message_received (BMessage* msg)
 {
 	int32 itemId;
 	team_id team;
+	BMessenger* messenger = new BMessenger(APP_SIGN);
+
+	if (!messenger->IsValid()) {
+		be_roster->Launch(APP_SIGN);
+		messenger = new BMessenger(APP_SIGN);
+	}
 
 	if (msg->FindInt32("addon_item_id", &itemId) != B_OK)
 		return;
@@ -73,11 +78,7 @@ message_received (BMessage* msg)
 	switch (itemId) {
 		case kShowWindow:
 			// show_window(msg);
-			team = be_roster->TeamFor(APP_SIGN);
-			if (team != B_ERROR)
-				be_roster->ActivateApp(team);
-			else
-				be_roster->Launch(APP_SIGN);
+			messenger->SendMessage(msg);
 			break;
 		default:
 			break;
