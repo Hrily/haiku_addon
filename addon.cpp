@@ -11,6 +11,9 @@
 #include <add-ons/tracker/TrackerAddOn.h>
 
 #include "ShowWindow.h"
+#include "MyAddonApp.h"
+
+#define APP_SIGN "application/x-vnd.haiku-myaddon"
 
 extern "C" {
 	void populate_menu (BMessage* msg, BMenu* menu, BHandler* handler);
@@ -62,12 +65,19 @@ void
 message_received (BMessage* msg)
 {
 	int32 itemId;
+	team_id team;
+
 	if (msg->FindInt32("addon_item_id", &itemId) != B_OK)
 		return;
 
 	switch (itemId) {
 		case kShowWindow:
-			show_window(msg);
+			// show_window(msg);
+			team = be_roster->TeamFor(APP_SIGN);
+			if (team != B_ERROR)
+				be_roster->ActivateApp(team);
+			else
+				be_roster->Launch(APP_SIGN);
 			break;
 		default:
 			break;
@@ -78,5 +88,8 @@ message_received (BMessage* msg)
 int 
 main ()
 {
+	new MyAddonApp();
+	be_app->Run();
+	delete be_app;
 	return 0;
 }

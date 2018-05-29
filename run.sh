@@ -1,2 +1,2 @@
-g++ ShowWindow.cpp addon.cpp -o addon -ltracker -lbe
-cp addon ~/config/non-packaged/add-ons/Tracker/
+make
+cp objects.x86-cc2-debug/MyAddon ~/config/non-packaged/add-ons/Tracker/
